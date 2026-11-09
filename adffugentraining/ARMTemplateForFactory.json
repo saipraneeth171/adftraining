@@ -230,7 +230,8 @@
 				],
 				"type": "BlobEventsTrigger",
 				"typeProperties": {
-					"blobPathBeginsWith": "/sourcecontainer/blobs/testraw/",
+					"blobPathBeginsWith": "/sourcecontainer/blobs/test/",
+					"blobPathEndsWith": ".csv",
 					"ignoreEmptyBlobs": true,
 					"scope": "[parameters('trigger1_properties_typeProperties_scope')]",
 					"events": [
