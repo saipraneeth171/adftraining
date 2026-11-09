@@ -1,0 +1,15 @@
+{
+	"name": "adffugentraining",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "536555d4-2d48-4156-8221-2c1d88daef8a",
+		"tenantId": "8da82342-f400-474e-94c1-91daf2e93707"
+	}
+}
