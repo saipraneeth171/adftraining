@@ -13,7 +13,7 @@
 		],
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
-			"blobPathBeginsWith": "/sourcecontainer/blobs/test/",
+			"blobPathBeginsWith": "/sourcecontainer/blobs/testraw/",
 			"ignoreEmptyBlobs": true,
 			"scope": "/subscriptions/f8bd2af8-fe0f-4c8e-a810-7e628fd0139b/resourceGroups/fugen/providers/Microsoft.Storage/storageAccounts/adffugen",
 			"events": [
