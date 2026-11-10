@@ -11,6 +11,9 @@
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://adffugen.dfs.core.windows.net/"
 		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://fugenacademy.vault.azure.net/"
+		},
 		"trigger1_properties_typeProperties_scope": {
 			"value": "/subscriptions/f8bd2af8-fe0f-4c8e-a810-7e628fd0139b/resourceGroups/fugen/providers/Microsoft.Storage/storageAccounts/adffugen"
 		},
