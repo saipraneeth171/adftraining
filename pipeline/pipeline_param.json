@@ -50,17 +50,51 @@
 				"inputs": [
 					{
 						"referenceName": "ds_src_csv_param",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"fileName": {
+								"value": "@pipeline().parameters.fileName",
+								"type": "Expression"
+							},
+							"folderName": {
+								"value": "@pipeline().parameters.sourceFolder",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
 					{
 						"referenceName": "ds_sink_csv_param",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"fileName": {
+								"value": "@pipeline().parameters.fileName",
+								"type": "Expression"
+							},
+							"folderName": {
+								"value": "@pipeline().parameters.targetFolder",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
 		],
+		"parameters": {
+			"fileName": {
+				"type": "string",
+				"defaultValue": "circuits.csv"
+			},
+			"sourceFolder": {
+				"type": "string",
+				"defaultValue": "sample"
+			},
+			"targetFolder": {
+				"type": "string",
+				"defaultValue": "sampleraw"
+			}
+		},
 		"annotations": []
 	}
 }
