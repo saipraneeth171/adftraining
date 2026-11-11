@@ -8,14 +8,35 @@
 		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
+		"AzureSqlDatabase2_password": {
+			"value": ""
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://adffugen.dfs.core.windows.net/"
 		},
-		"AzureKeyVault1_properties_typeProperties_baseUrl": {
-			"value": "https://fugenacademy.vault.azure.net/"
-		},
 		"trigger1_properties_typeProperties_scope": {
 			"value": "/subscriptions/f8bd2af8-fe0f-4c8e-a810-7e628fd0139b/resourceGroups/fugen/providers/Microsoft.Storage/storageAccounts/adffugen"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://fugenacademykv.vault.azure.net/"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_server": {
+			"value": "fugenn.database.windows.net"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_database": {
+			"value": "master"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"value": "sqladmin"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_server": {
+			"value": "fugenn.database.windows.net"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_database": {
+			"value": "master"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_userName": {
+			"value": "sqladmin"
 		},
 		"containerUri": {
 			"value": ""
