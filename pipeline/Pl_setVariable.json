@@ -5,22 +5,67 @@
 			{
 				"name": "Set variable stp1",
 				"type": "SetVariable",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"secureOutput": false,
 					"secureInput": false
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "vEmployeeName",
-					"value": "Ravi"
+					"variableName": "vEmployeeCount",
+					"value": {
+						"value": "@activity('Lookup1').output.count",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "@concat('select * from raw.customers where country=''', pipeline().parameters.pCountry)",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
+		"parameters": {
+			"pCountry": {
+				"type": "string",
+				"defaultValue": "India"
+			}
+		},
 		"variables": {
-			"vEmployeeName": {
+			"vEmployeeCount": {
 				"type": "String",
-				"defaultValue": "Unknown"
+				"defaultValue": "0"
 			}
 		},
 		"annotations": []
