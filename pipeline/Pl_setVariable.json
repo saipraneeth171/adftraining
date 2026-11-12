@@ -42,7 +42,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "@concat('select * from raw.customers where country=''', pipeline().parameters.pCountry)",
+							"value": "@concat('select * from raw.customers where country=''',pipeline().parameters.pCountry)",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -58,8 +58,7 @@
 		],
 		"parameters": {
 			"pCountry": {
-				"type": "string",
-				"defaultValue": "India"
+				"type": "string"
 			}
 		},
 		"variables": {
