@@ -1,0 +1,28 @@
+{
+	"name": "Pl_setVariable",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable stp1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "vEmployeeName",
+					"value": "Ravi"
+				}
+			}
+		],
+		"variables": {
+			"vEmployeeName": {
+				"type": "String",
+				"defaultValue": "Unknown"
+			}
+		},
+		"annotations": []
+	}
+}
