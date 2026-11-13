@@ -127,6 +127,59 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pl_filter_demo')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Filter1",
+						"type": "Filter",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@variables('fileList')",
+								"type": "Expression"
+							},
+							"condition": {
+								"value": "@and(equals(item().type,'File'),endsWith(toLower(item().name),'.json'))",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"fileList": {
+						"type": "Array",
+						"defaultValue": [
+							{
+								"name": "Customers.csv",
+								"type": "File"
+							},
+							{
+								"name": "orders.csv",
+								"type": "File"
+							},
+							{
+								"name": "employees.json",
+								"type": "File"
+							},
+							{
+								"name": "products.parquet",
+								"type": "File"
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_destination')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -956,36 +1009,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/schedule')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "pipeline copy",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Day",
-						"interval": 14,
-						"startTime": "2026-11-09T08:13:00",
-						"timeZone": "India Standard Time"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pipeline copy')]"
 			]
 		}
 	]

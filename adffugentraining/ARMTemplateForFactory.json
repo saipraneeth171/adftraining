@@ -1089,6 +1089,100 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline_getMetaData')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Get Metadata1",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"fieldList": [
+								"columnCount",
+								"exists",
+								"structure"
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_filter_demo')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Filter1",
+						"type": "Filter",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@variables('fileList')",
+								"type": "Expression"
+							},
+							"condition": {
+								"value": "@and(equals(item().type,'File'),endsWith(toLower(item().name),'.json'))",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"fileList": {
+						"type": "Array",
+						"defaultValue": [
+							{
+								"name": "Customers.csv",
+								"type": "File"
+							},
+							{
+								"name": "orders.csv",
+								"type": "File"
+							},
+							{
+								"name": "employees.json",
+								"type": "File"
+							},
+							{
+								"name": "products.parquet",
+								"type": "File"
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
 		}
 	]
 }
