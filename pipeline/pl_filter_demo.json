@@ -13,7 +13,7 @@
 						"type": "Expression"
 					},
 					"condition": {
-						"value": "@and(equals(item().type,'File'),endsWith(toLower(item().name),'.csv'))",
+						"value": "@and(equals(item().type,'File'),endsWith(toLower(item().name),'.json'))",
 						"type": "Expression"
 					}
 				}
