@@ -16,24 +16,14 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "ds_source",
+						"referenceName": "AzureSqlTable1",
 						"type": "DatasetReference"
 					},
 					"fieldList": [
+						"columnCount",
 						"exists",
-						"size",
-						"itemType",
-						"itemName",
-						"lastModified",
-						"columnCount"
-					],
-					"storeSettings": {
-						"type": "AzureBlobFSReadSettings",
-						"enablePartitionDiscovery": false
-					},
-					"formatSettings": {
-						"type": "DelimitedTextReadSettings"
-					}
+						"structure"
+					]
 				}
 			}
 		],
