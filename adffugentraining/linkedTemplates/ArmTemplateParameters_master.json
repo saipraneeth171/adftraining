@@ -11,11 +11,11 @@
 		"AzureSqlDatabase2_password": {
 			"value": ""
 		},
+		"FileServer1_password": {
+			"value": ""
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://adffugen.dfs.core.windows.net/"
-		},
-		"trigger1_properties_typeProperties_scope": {
-			"value": "/subscriptions/f8bd2af8-fe0f-4c8e-a810-7e628fd0139b/resourceGroups/fugen/providers/Microsoft.Storage/storageAccounts/adffugen"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://fugenacademykv.vault.azure.net/"
@@ -37,6 +37,15 @@
 		},
 		"AzureSqlDatabase2_properties_typeProperties_userName": {
 			"value": "sqladmin"
+		},
+		"FileServer1_properties_typeProperties_host": {
+			"value": "D:\\adf_lab\\source"
+		},
+		"FileServer1_properties_typeProperties_userId": {
+			"value": "desktop-jc5dacm\\adflab"
+		},
+		"trigger1_properties_typeProperties_scope": {
+			"value": "/subscriptions/f8bd2af8-fe0f-4c8e-a810-7e628fd0139b/resourceGroups/fugen/providers/Microsoft.Storage/storageAccounts/adffugen"
 		},
 		"containerUri": {
 			"value": ""
