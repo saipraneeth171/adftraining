@@ -24,7 +24,8 @@
 						"size",
 						"itemType",
 						"itemName",
-						"lastModified"
+						"lastModified",
+						"columnCount"
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
