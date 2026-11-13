@@ -99,7 +99,13 @@
 							"outputs": [
 								{
 									"referenceName": "ds_sink_shir",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"fileName": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
