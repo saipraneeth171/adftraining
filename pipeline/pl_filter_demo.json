@@ -1,0 +1,47 @@
+{
+	"name": "pl_filter_demo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Filter1",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('fileList')",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@and(equals(item().type,'File'),endsWith(toLower(item().name),'.csv'))",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"fileList": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"name": "Customers.csv",
+						"type": "File"
+					},
+					{
+						"name": "orders.csv",
+						"type": "File"
+					},
+					{
+						"name": "employees.json",
+						"type": "File"
+					},
+					{
+						"name": "products.parquet",
+						"type": "File"
+					}
+				]
+			}
+		},
+		"annotations": []
+	}
+}
