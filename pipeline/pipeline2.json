@@ -69,8 +69,6 @@
 									"storeSettings": {
 										"type": "FileServerReadSettings",
 										"recursive": true,
-										"wildcardFolderPath": "*",
-										"wildcardFileName": "*",
 										"deleteFilesAfterCompletion": false
 									},
 									"formatSettings": {
