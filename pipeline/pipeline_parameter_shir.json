@@ -21,7 +21,9 @@
 					},
 					"fieldList": [
 						"childItems",
-						"exists"
+						"exists",
+						"itemType",
+						"itemName"
 					],
 					"storeSettings": {
 						"type": "FileServerReadSettings",
