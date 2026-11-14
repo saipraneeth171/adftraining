@@ -52,7 +52,7 @@
 						"type": "Expression"
 					},
 					"condition": {
-						"value": "@equals(item().type,'File')",
+						"value": "@and(\n    equals(item().type, 'File'),\n    endswith(item().name, '.csv')\n)",
 						"type": "Expression"
 					}
 				}
