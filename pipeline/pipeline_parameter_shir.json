@@ -155,7 +155,8 @@
 				"defaultValue": "*.csv"
 			},
 			"targetFolder": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "testrawsample"
 			}
 		},
 		"annotations": []
