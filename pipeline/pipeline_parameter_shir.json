@@ -95,7 +95,6 @@
 									"storeSettings": {
 										"type": "FileServerReadSettings",
 										"recursive": true,
-										"wildcardFileName": "*",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
@@ -126,7 +125,13 @@
 							"inputs": [
 								{
 									"referenceName": "ds_src_source_shir",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"fileName": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [
