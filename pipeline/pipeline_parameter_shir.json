@@ -125,13 +125,7 @@
 							"inputs": [
 								{
 									"referenceName": "ds_src_source_shir",
-									"type": "DatasetReference",
-									"parameters": {
-										"fileName": {
-											"value": "@item().name",
-											"type": "Expression"
-										}
-									}
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
