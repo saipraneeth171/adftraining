@@ -1,0 +1,54 @@
+{
+	"name": "Pl_foreach_demo",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('employeeList')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "currentEmployee",
+								"value": {
+									"value": "@item()",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"employeeList": {
+				"type": "Array",
+				"defaultValue": [
+					"ravi",
+					"priya",
+					"kumar",
+					"anil"
+				]
+			},
+			"currentEmployee": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
