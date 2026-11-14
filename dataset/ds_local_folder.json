@@ -1,0 +1,16 @@
+{
+	"name": "ds_local_folder",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FileServer1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation"
+			}
+		}
+	}
+}
