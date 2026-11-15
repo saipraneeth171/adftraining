@@ -1,0 +1,15 @@
+{
+	"name": "adffungentraining",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "677d0bf7-af66-4bb4-9521-1cb34594972a",
+		"tenantId": "5667d334-b605-47f0-9458-7974ccf0eba7"
+	}
+}
