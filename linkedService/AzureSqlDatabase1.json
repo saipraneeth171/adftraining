@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "AzureSqlDatabase",
 		"typeProperties": {
-			"server": "fugenn.database.windows.net",
+			"server": "academyfugen.database.windows.net",
 			"database": "master",
 			"encrypt": "mandatory",
 			"trustServerCertificate": false,
