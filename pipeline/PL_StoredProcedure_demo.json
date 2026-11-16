@@ -1,9 +1,9 @@
 {
-	"name": "pipeline3",
+	"name": "PL_StoredProcedure_demo",
 	"properties": {
 		"activities": [
 			{
-				"name": "PL_StoredProcedure_demo",
+				"name": "Execute_audit_table",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [],
 				"policy": {
