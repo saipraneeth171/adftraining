@@ -1,0 +1,95 @@
+{
+	"name": "pipeline_setvariable_appendvariable",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "new",
+					"value": []
+				}
+			},
+			{
+				"name": "Append variable1",
+				"type": "AppendVariable",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "new",
+					"value": "circuits"
+				}
+			},
+			{
+				"name": "Append variable2",
+				"type": "AppendVariable",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "new",
+					"value": "races"
+				}
+			},
+			{
+				"name": "Set variable2",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Append variable2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Append variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "result",
+					"value": {
+						"value": "@string(variables('new'))",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"new": {
+				"type": "Array",
+				"defaultValue": []
+			},
+			"result": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
