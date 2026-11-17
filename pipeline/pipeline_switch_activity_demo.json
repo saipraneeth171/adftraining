@@ -1,0 +1,87 @@
+{
+	"name": "pipeline_switch_activity_demo",
+	"properties": {
+		"activities": [
+			{
+				"name": "Switch1",
+				"type": "Switch",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@pipeline().parameters.fileType",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "csv",
+							"activities": [
+								{
+									"name": "Set variable2",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "resultMessage",
+										"value": "csv file selected from parameter"
+									}
+								}
+							]
+						},
+						{
+							"value": "json",
+							"activities": [
+								{
+									"name": "Set variable3",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "resultMessage",
+										"value": "json file selected from parameter"
+									}
+								}
+							]
+						}
+					],
+					"defaultActivities": [
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "resultMessage",
+								"value": "default value not csv or json"
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"fileType": {
+				"type": "string",
+				"defaultValue": "csv"
+			}
+		},
+		"variables": {
+			"resultMessage": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
