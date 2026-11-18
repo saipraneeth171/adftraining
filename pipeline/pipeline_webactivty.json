@@ -50,6 +50,39 @@
 						"userId": 1
 					}
 				}
+			},
+			{
+				"name": "Web3",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Web2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "PUT",
+					"headers": {
+						"content-Type": "application/json"
+					},
+					"url": "https://jsonplaceholder.typicode.com/posts",
+					"body": {
+						"userId": 1,
+						"id": 1,
+						"title": "ADF Updated title today ",
+						"body": "complete recording updated using put method"
+					}
+				}
 			}
 		],
 		"annotations": []
