@@ -40,6 +40,9 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "POST",
+					"headers": {
+						"content-type": "application/json"
+					},
 					"url": "https://jsonplaceholder.typicode.com/users",
 					"body": {
 						"title": "ADF Training",
