@@ -42,6 +42,78 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://prod-14.northcentralus.logic.azure.com:443/workflows/8d3cb65a3e014fa985cf539fa1a004cd/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=3pLgeVzDIuWFHq5Ws4rqnjlWlSY21VvHXD6Rs_DHX1o",
+					"body": {
+						"value": "@concat(\n    '{\"pipelineName\":\"',pipeline().Pipeline,'\",\n    \"dataFactoryName\":\"',pipeline().DataFactory,'\",\n    \"runID\":\"',pipeline().runID,'\",\n    \"status\":\"Succeeded\",\n    \"message\" : \"Pipeline executed successfully\"\n\n}')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Web2",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "If Condition1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"body": {
+						"value": "@concat(\n    '{\"pipelineName\":\"',pipeline().Pipeline,'\",\n    \"dataFactoryName\":\"',pipeline().DataFactory,'\",\n    \"runID\":\"',pipeline().runID,'\",\n    \"status\":\"Failed\",\n    \"message\" : \"Pipeline executed failed check the adf monitor\"\n\n}')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Fail2",
+				"type": "Fail",
+				"dependsOn": [
+					{
+						"activity": "Web2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"message": "pipeline failed after failure notificiation",
+					"errorCode": "pipeline_execution_failed"
+				}
 			}
 		],
 		"parameters": {
