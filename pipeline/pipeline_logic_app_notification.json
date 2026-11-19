@@ -1,0 +1,62 @@
+{
+	"name": "pipeline_logic_app_notification",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "vEmployeeName",
+					"value": "fugen"
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"ifTrueActivities": [
+						{
+							"name": "Fail1",
+							"type": "Fail",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"message": "Intentionally failure for the notification testing",
+								"errorCode": "demo_failure"
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"logicAppURL": {
+				"type": "string"
+			},
+			"pFailure": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"vEmployeeName": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
