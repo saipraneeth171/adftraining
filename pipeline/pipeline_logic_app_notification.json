@@ -29,6 +29,18 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"ifFalseActivities": [
+						{
+							"name": "Fail3",
+							"type": "Fail",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"message": "Intentionally failure for the notiification",
+								"errorCode": "Demo_failure"
+							}
+						}
+					],
 					"ifTrueActivities": [
 						{
 							"name": "Fail1",
