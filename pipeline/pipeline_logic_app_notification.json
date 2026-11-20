@@ -51,8 +51,8 @@
 							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
-								"message": "Intentionally failure for the notification testing",
-								"errorCode": "demo_failure"
+								"message": "Intentionally failing for failure notification testing",
+								"errorCode": "Demo_Failure"
 							}
 						}
 					]
@@ -79,9 +79,15 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "POST",
-					"url": "https://prod-14.northcentralus.logic.azure.com:443/workflows/8d3cb65a3e014fa985cf539fa1a004cd/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=3pLgeVzDIuWFHq5Ws4rqnjlWlSY21VvHXD6Rs_DHX1o",
+					"headers": {
+						"Content-Type": "application/json"
+					},
+					"url": {
+						"value": "@pipeline().parameters.logicAppURL",
+						"type": "Expression"
+					},
 					"body": {
-						"value": "@concat(\n    '{\"pipelineName\":\"',pipeline().Pipeline,'\",\n    \"dataFactoryName\":\"',pipeline().DataFactory,'\",\n    \"runID\":\"',pipeline().runID,'\",\n    \"status\":\"Succeeded\",\n    \"message\" : \"Pipeline executed successfully\"\n\n}')",
+						"value": "@json(concat('{\"pipelineName\":\"',pipeline().Pipeline,'\",\"dataFactoryName\":\"',pipeline().DataFactory,'\",\"runID\":\"',pipeline().RunId,'\",\"status\":\"Succeeded\",\"message\":\"Pipeline executed successfully\"}'))",
 						"type": "Expression"
 					}
 				}
@@ -107,9 +113,15 @@
 				"userProperties": [],
 				"typeProperties": {
 					"method": "POST",
-					"url": "https://prod-14.northcentralus.logic.azure.com:443/workflows/8d3cb65a3e014fa985cf539fa1a004cd/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=3pLgeVzDIuWFHq5Ws4rqnjlWlSY21VvHXD6Rs_DHX1o",
+					"headers": {
+						"Content-Type": "application/json"
+					},
+					"url": {
+						"value": "@pipeline().parameters.logicAppURL",
+						"type": "Expression"
+					},
 					"body": {
-						"value": "@concat(\n    '{\"pipelineName\":\"',pipeline().Pipeline,'\",\n    \"dataFactoryName\":\"',pipeline().DataFactory,'\",\n    \"runID\":\"',pipeline().runID,'\",\n    \"status\":\"Failed\",\n    \"message\" : \"Pipeline executed failed check the adf monitor\"\n\n}')",
+						"value": "@json(concat('{\"pipelineName\":\"',pipeline().Pipeline,'\",\"dataFactoryName\":\"',pipeline().DataFactory,'\",\"runID\":\"',pipeline().RunId,'\",\"status\":\"Failed\",\"message\":\"Pipeline execution failed. Please check ADF Monitor.\"}'))",
 						"type": "Expression"
 					}
 				}
@@ -127,8 +139,8 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"message": "pipeline failed after failure notificiation",
-					"errorCode": "pipeline_execution_failed"
+					"message": "Pipeline failed after sending failure notification",
+					"errorCode": "Pipeline_Execution_Failed"
 				}
 			}
 		],
