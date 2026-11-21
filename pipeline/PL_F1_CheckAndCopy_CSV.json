@@ -13,12 +13,18 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"fieldList": [
-						"exists",
-						"size",
-						"lastModified",
-						"itemName"
-					]
+					"dataset": {
+						"referenceName": "DS_F1_CSV",
+						"type": "DatasetReference"
+					},
+					"fieldList": [],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
 				}
 			},
 			{
