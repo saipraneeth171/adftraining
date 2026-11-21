@@ -1,6 +1,122 @@
 {
 	"name": "PL_F1_CheckAndCopy_CSV",
 	"properties": {
-		"annotations": []
-	}
+		"activities": [
+			{
+				"name": "Get_CSV_File_Metadata",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.00:05:00",
+					"retry": 1,
+					"retryIntervalInSeconds": 30
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"fieldList": [
+						"exists",
+						"size",
+						"lastModified",
+						"itemName"
+					]
+				}
+			},
+			{
+				"name": "If_CSV_File_Exists",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Get_CSV_File_Metadata",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(activity('Get_CSV_File_Metadata').output.exists,true)",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Fail_File_Missing",
+							"type": "Fail",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"message": {
+									"value": "@concat('CSV file not found: ',pipeline().parameters.FolderPath,'/',pipeline().parameters.FileName)",
+									"type": "Expression"
+								},
+								"errorCode": "F1_FILE_NOT_FOUND"
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Copy_CSV_To_Staging",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.01:00:00",
+								"retry": 2,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"additionalColumns": [
+										{
+											"name": "BatchID",
+											"value": {
+												"value": "@pipeline().parameters.BatchID",
+												"type": "Expression"
+											}
+										}
+									],
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false
+								},
+								"enableStaging": false
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"EntityName": {
+				"type": "String"
+			},
+			"FileName": {
+				"type": "String"
+			},
+			"FolderPath": {
+				"type": "String"
+			},
+			"StagingTable": {
+				"type": "String"
+			},
+			"BatchID": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-11-18T02:26:17Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }
