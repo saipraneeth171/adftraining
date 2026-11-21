@@ -202,7 +202,29 @@
 											"referenceName": "PL_F1_CheckAndCopy_JSONL",
 											"type": "PipelineReference"
 										},
-										"waitOnCompletion": true
+										"waitOnCompletion": true,
+										"parameters": {
+											"EntityName": {
+												"value": "@pipeline().parameters.EntityName",
+												"type": "Expression"
+											},
+											"FileName": {
+												"value": "@pipeline().parameters.FileName",
+												"type": "Expression"
+											},
+											"FolderPath": {
+												"value": "@pipeline().parameters.FolderPath",
+												"type": "Expression"
+											},
+											"StagingTable": {
+												"value": "@pipeline().parameters.StagingTable",
+												"type": "Expression"
+											},
+											"BatchID": {
+												"value": "@variables('vBatchID')",
+												"type": "Expression"
+											}
+										}
 									}
 								}
 							]
