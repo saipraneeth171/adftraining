@@ -1,0 +1,133 @@
+{
+	"name": "PL_F1_CheckAndCopy_JSONL",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get_JSONL_File_Metadata",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.00:05:00",
+					"retry": 1,
+					"retryIntervalInSeconds": 30
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DS_F1_JSON",
+						"type": "DatasetReference",
+						"parameters": {
+							"pContainer": "f1-data",
+							"pFolderPath": "incoming/drivers",
+							"pFileName": "drivers.json "
+						}
+					},
+					"fieldList": [],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "JsonReadSettings"
+					}
+				}
+			},
+			{
+				"name": "If_JSONL_File_Exists",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Get_JSONL_File_Metadata",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(activity('Get_JSONL_File_Metadata').output.exists,true)",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Fail_File_Missing",
+							"type": "Fail",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"message": {
+									"value": "@concat('JSONL file not found: ',pipeline().parameters.FolderPath,'/',pipeline().parameters.FileName)",
+									"type": "Expression"
+								},
+								"errorCode": "F1_FILE_NOT_FOUND"
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Copy_JSONL_To_Staging",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.01:00:00",
+								"retry": 2,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "JsonSource",
+									"additionalColumns": [
+										{
+											"name": "BatchID",
+											"value": {
+												"value": "@pipeline().parameters.BatchID",
+												"type": "Expression"
+											}
+										}
+									],
+									"storeSettings": {
+										"type": "AzureBlobFSReadSettings",
+										"recursive": false
+									},
+									"formatSettings": {
+										"type": "JsonReadSettings"
+									}
+								},
+								"sink": {
+									"type": "AzureSqlSink",
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false
+								},
+								"enableStaging": false
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"EntityName": {
+				"type": "String"
+			},
+			"FileName": {
+				"type": "String"
+			},
+			"FolderPath": {
+				"type": "String"
+			},
+			"StagingTable": {
+				"type": "String"
+			},
+			"BatchID": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-11-18T02:26:17Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
