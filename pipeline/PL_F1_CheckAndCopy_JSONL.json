@@ -18,8 +18,11 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"pContainer": "f1-data",
-							"pFolderPath": "incoming/drivers",
-							"pFileName": "drivers.json "
+							"pFolderPath": "@pipeline().parameters.FolderPath",
+							"pFileName": {
+								"value": "@pipeline().parameters.FileName",
+								"type": "Expression"
+							}
 						}
 					},
 					"fieldList": [],
