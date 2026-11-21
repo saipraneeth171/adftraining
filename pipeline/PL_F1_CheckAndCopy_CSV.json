@@ -44,6 +44,8 @@
 			{
 				"name": "If_CSV_File_Exists",
 				"type": "IfCondition",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Get_CSV_File_Metadata",
