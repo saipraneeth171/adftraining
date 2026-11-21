@@ -28,6 +28,7 @@
 					"fieldList": [
 						"exists",
 						"lastModified",
+						"itemType",
 						"itemType"
 					],
 					"storeSettings": {
