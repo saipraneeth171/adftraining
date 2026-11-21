@@ -105,8 +105,42 @@
 									"writeBehavior": "insert",
 									"sqlWriterUseTableLock": false
 								},
-								"enableStaging": false
-							}
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mapComplexValuesToString": false
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_F1_JSON",
+									"type": "DatasetReference",
+									"parameters": {
+										"pContainer": "f1-data",
+										"pFolderPath": {
+											"value": "@pipeline().parameters.FolderPath",
+											"type": "Expression"
+										},
+										"pFileName": {
+											"value": "@pipeline().parameters.FileName",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_F1_SQL",
+									"type": "DatasetReference",
+									"parameters": {
+										"pSchema": "raw",
+										"pTable": {
+											"value": "@pipeline().parameters.StagingTable",
+											"type": "Expression"
+										}
+									}
+								}
+							]
 						}
 					]
 				}
