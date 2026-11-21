@@ -15,7 +15,15 @@
 				"typeProperties": {
 					"dataset": {
 						"referenceName": "DS_F1_CSV",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"pContainer": "f1-data",
+							"pFolderPath": "@pipeline().parameters.FolderPath",
+							"pFileName": {
+								"value": "@pipeline().parameters.FileName",
+								"type": "Expression"
+							}
+						}
 					},
 					"fieldList": [],
 					"storeSettings": {
@@ -97,8 +105,43 @@
 									"writeBehavior": "insert",
 									"sqlWriterUseTableLock": false
 								},
-								"enableStaging": false
-							}
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_F1_CSV",
+									"type": "DatasetReference",
+									"parameters": {
+										"pContainer": "f1-data",
+										"pFolderPath": {
+											"value": "@pipeline().parameters.FolderPath",
+											"type": "Expression"
+										},
+										"pFileName": "@pipeline().parameters.FileName"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_F1_SQL",
+									"type": "DatasetReference",
+									"parameters": {
+										"pSchema": "raw",
+										"pTable": {
+											"value": "@pipeline().parameters.StagingTable",
+											"type": "Expression"
+										}
+									}
+								}
+							]
 						}
 					]
 				}
