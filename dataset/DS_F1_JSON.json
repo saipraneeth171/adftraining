@@ -7,16 +7,13 @@
 		},
 		"parameters": {
 			"pContainer": {
-				"type": "string",
-				"defaultValue": "f1-data"
+				"type": "string"
 			},
 			"pFolderPath": {
-				"type": "string",
-				"defaultValue": "incoming/drivers"
+				"type": "string"
 			},
 			"pFileName": {
-				"type": "string",
-				"defaultValue": "drivers.json "
+				"type": "string"
 			}
 		},
 		"annotations": [],
