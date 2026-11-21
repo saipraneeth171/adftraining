@@ -1,0 +1,320 @@
+{
+	"name": "PL_F1_Load",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set_BatchID",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "vBatchID",
+					"value": {
+						"value": "@string(ticks(utcNow()))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Switch_LoadType",
+				"type": "Switch",
+				"dependsOn": [
+					{
+						"activity": "Set_BatchID",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@toUpper(pipeline().parameters.LoadType)",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "FULL",
+							"activities": [
+								{
+									"name": "SP_Truncate_Raw_Table",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[ctl].[usp_TruncateRawTable]",
+										"storedProcedureParameters": {
+											"StagingTable": {
+												"value": {
+													"value": "@pipeline().parameters.StagingTable",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "AzureSqlDatabase1",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						},
+						{
+							"value": "INCREMENTAL",
+							"activities": [
+								{
+									"name": "SP_Check_Existing_Batch",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[ctl].[usp_CheckBatch]",
+										"storedProcedureParameters": {
+											"EntityName": {
+												"value": {
+													"value": "@pipeline().parameters.EntityName",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"BatchID": {
+												"value": {
+													"value": "@variables('vBatchID')",
+													"type": "Expression"
+												},
+												"type": "Int64"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "AzureSqlDatabase1",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					],
+					"defaultActivities": [
+						{
+							"name": "Fail_Invalid_LoadType",
+							"type": "Fail",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"message": "Invalid LoadType. Use FULL or INCREMENTAL.",
+								"errorCode": "F1_INVALID_LOAD_TYPE"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Switch_SourceFormat",
+				"type": "Switch",
+				"dependsOn": [
+					{
+						"activity": "Switch_LoadType",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@toUpper(pipeline().parameters.SourceFormat)",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "CSV",
+							"activities": [
+								{
+									"name": "Execute_CSV_Child",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PL_F1_CheckAndCopy_CSV",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"EntityName": {
+												"value": "@pipeline().parameters.EntityName",
+												"type": "Expression"
+											},
+											"FileName": {
+												"value": "@pipeline().parameters.FileName",
+												"type": "Expression"
+											},
+											"FolderPath": {
+												"value": "@pipeline().parameters.FolderPath",
+												"type": "Expression"
+											},
+											"StagingTable": {
+												"value": "@pipeline().parameters.StagingTable",
+												"type": "Expression"
+											},
+											"BatchID": {
+												"value": "@variables('vBatchID')",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						},
+						{
+							"value": "JSONL",
+							"activities": [
+								{
+									"name": "Execute_JSONL_Child",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"waitOnCompletion": true,
+										"parameters": {
+											"EntityName": {
+												"value": "@pipeline().parameters.EntityName",
+												"type": "Expression"
+											},
+											"FileName": {
+												"value": "@pipeline().parameters.FileName",
+												"type": "Expression"
+											},
+											"FolderPath": {
+												"value": "@pipeline().parameters.FolderPath",
+												"type": "Expression"
+											},
+											"StagingTable": {
+												"value": "@pipeline().parameters.StagingTable",
+												"type": "Expression"
+											},
+											"BatchID": {
+												"value": "@variables('vBatchID')",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					],
+					"defaultActivities": [
+						{
+							"name": "Fail_Invalid_SourceFormat",
+							"type": "Fail",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"message": "Invalid SourceFormat. Use CSV or JSONL.",
+								"errorCode": "F1_INVALID_SOURCE_FORMAT"
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "SP_Register_Successful_Batch",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Switch_SourceFormat",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[ctl].[usp_RegisterBatch]",
+					"storedProcedureParameters": {
+						"EntityName": {
+							"value": {
+								"value": "@pipeline().parameters.EntityName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"BatchID": {
+							"value": {
+								"value": "@variables('vBatchID')",
+								"type": "Expression"
+							},
+							"type": "Int64"
+						},
+						"LoadType": {
+							"value": {
+								"value": "@toUpper(pipeline().parameters.LoadType)",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"EntityName": {
+				"type": "String"
+			},
+			"FileName": {
+				"type": "String"
+			},
+			"FolderPath": {
+				"type": "String"
+			},
+			"StagingTable": {
+				"type": "String"
+			},
+			"SourceFormat": {
+				"type": "String"
+			},
+			"LoadType": {
+				"type": "String"
+			}
+		},
+		"variables": {
+			"vBatchID": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
