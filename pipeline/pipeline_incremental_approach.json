@@ -140,11 +140,11 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[raw].[ups_updateWaterMark1]",
+					"storedProcedureName": "[raw].[usp_UpdateWatermark]",
 					"storedProcedureParameters": {
 						"TableName": {
 							"value": "customers",
-							"type": "Single"
+							"type": "String"
 						},
 						"NewWatermark": {
 							"value": {
