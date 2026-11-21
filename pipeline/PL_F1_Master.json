@@ -21,6 +21,14 @@
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
+					"dataset": {
+						"referenceName": "DS_F1_SQL",
+						"type": "DatasetReference",
+						"parameters": {
+							"pSchema": "ctl",
+							"pTable": "F1_Metadata"
+						}
+					},
 					"firstRowOnly": false
 				}
 			},
@@ -70,12 +78,12 @@
 										"value": "@item().FolderPath",
 										"type": "Expression"
 									},
-									"SourceFormat": {
-										"value": "@item().SourceFormat",
-										"type": "Expression"
-									},
 									"StagingTable": {
 										"value": "@item().StagingTable",
+										"type": "Expression"
+									},
+									"SourceFormat": {
+										"value": "@item().SourceFormat",
 										"type": "Expression"
 									},
 									"LoadType": {
